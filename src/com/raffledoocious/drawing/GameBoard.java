@@ -21,6 +21,8 @@ public class GameBoard extends View {
 	private Bitmap bulletMap;
 	private Rect bulletBounds;
 	private Paint p;
+	private int topBarrierX;
+	private int bottomBarrierX;
 	
 	public GameBoard(Context context, AttributeSet attrSet) {
 		super(context, attrSet);
@@ -46,6 +48,14 @@ public class GameBoard extends View {
 	
 	synchronized public int getBulletHeight(){
 		return bulletBounds.height();
+	}
+	
+	synchronized public int getTopBarrierX(){
+		return topBarrierX;
+	}
+	
+	synchronized public int getBottomBarrierX(){
+		return bottomBarrierX;
 	}
 	
 	@Override
