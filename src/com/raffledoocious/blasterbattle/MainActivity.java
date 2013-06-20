@@ -1,5 +1,6 @@
 package com.raffledoocious.blasterbattle;
 
+import java.util.List;
 import java.util.Random;
 
 import com.raffledoocious.battleblaster.R;
@@ -50,6 +51,15 @@ public class MainActivity extends Activity {
 		@Override
 		synchronized public void run(){
 			frame.removeCallbacks(frameUpdate);
+			
+			//update the positions of the bullets
+			List<Point> bullets = ((GameBoard) findViewById(R.id.the_board)).getBullets();
+			for (int i = 0; i < bullets.size(); i++){
+				Point bullet = bullets.get(i);
+				bullet.y += ((GameBoard) findViewById(R.id.the_board)).getVelocity();
+				bullets.set(i, bullet);
+			}
+			
 			((GameBoard) findViewById(R.id.the_board)).invalidate();
 			frame.postDelayed(frameUpdate, FRAME_RATE);
 		}

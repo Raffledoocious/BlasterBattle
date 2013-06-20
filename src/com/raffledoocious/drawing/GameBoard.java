@@ -23,6 +23,7 @@ public class GameBoard extends View {
 	private Paint p;
 	private int topBarrierX;
 	private int bottomBarrierX;
+	private int velocity = 8;
 	
 	public GameBoard(Context context, AttributeSet attrSet) {
 		super(context, attrSet);
@@ -58,6 +59,10 @@ public class GameBoard extends View {
 		return bottomBarrierX;
 	}
 	
+	synchronized public int getVelocity(){
+		return velocity;
+	}
+	
 	@Override
 	synchronized public void onDraw(Canvas canvas)	{
 		//Draw a black background
@@ -75,9 +80,9 @@ public class GameBoard extends View {
 		canvas.drawLine(0, getHeight() / 8, getWidth(), getHeight() / 8, p);
 		
 		//draw the bullets
-		for (Point bullet : bulletField)		{
-			if (bullet.x >= 0)			{
-				canvas.drawBitmap(bulletMap, bullet.x, bullet.y, p);
+		for (int i = 0; i < bulletField.size(); i++) {
+			if (bulletField.get(i).x >= 0) {
+				canvas.drawBitmap(bulletMap, bulletField.get(i).x, bulletField.get(i).y, p);
 			}
 		}
 		
