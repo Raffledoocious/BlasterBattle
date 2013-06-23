@@ -34,15 +34,6 @@ public class MainActivity extends Activity {
 	synchronized public void initGfx() {
 		GameBoard board = (GameBoard) findViewById(R.id.the_board);
 		
-		Point p1 = new Point();
-		p1.x = 0;
-		p1.y = 0;
-		Point p2 = new Point();
-		p2.x = board.getWidth() - board.getBulletWidth();
-		p2.y = board.getHeight() - board.getBulletHeight(); 
-		board.addBullet(p1);
-		board.addBullet(p2);
-		
 		frame.removeCallbacks(frameUpdate);
 		frame.postDelayed(frameUpdate, FRAME_RATE);
 	}
@@ -53,10 +44,10 @@ public class MainActivity extends Activity {
 			frame.removeCallbacks(frameUpdate);
 			
 			//update the positions of the bullets
-			List<Point> bullets = ((GameBoard) findViewById(R.id.the_board)).getBullets();
+			List<Bullet> bullets = ((GameBoard) findViewById(R.id.the_board)).getBullets();
 			for (int i = 0; i < bullets.size(); i++){
-				Point bullet = bullets.get(i);
-				bullet.y += ((GameBoard) findViewById(R.id.the_board)).getVelocity();
+				Bullet bullet = bullets.get(i);
+				bullet.updateBulletLocation();
 				bullets.set(i, bullet);
 			}
 			

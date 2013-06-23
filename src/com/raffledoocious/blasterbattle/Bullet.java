@@ -2,38 +2,30 @@ package com.raffledoocious.blasterbattle;
 
 public class Bullet {
 	private Player player;
-	private int x;
-	private int y;
+	public int x;
+	public int y;
 	private int velocity;
+	
+	private static final int player1Velocity = -1;
+	private static final int player2Velocity = 1;
 	
 	public Bullet(int x, int y, Player player, int velocity){
 		this.x = x;
 		this.y = y;
 		this.player = player;
-		this.velocity = velocity;
+		if (player == Player.One){
+			this.velocity = player1Velocity;
+		}
+		else {
+			this.velocity = player2Velocity;
+		}
 	}
 	
 	public Player getPlayer(){
 		return player;
 	}
-	
-	public void setX(int x){
-		this.x = x;
-	}
-	
-	public int getX(){
-		return x;
-	}
-	
-	public void setY(int y){
-		this.y = y;
-	} 
-	
-	public int getY(){
-		return y;
-	}
-	
-	public int getVelocity(){
-		return velocity;
+
+	public void updateBulletLocation(){
+		this.y += this.velocity;
 	}
 }
