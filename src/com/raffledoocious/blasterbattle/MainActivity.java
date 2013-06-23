@@ -1,16 +1,16 @@
 package com.raffledoocious.blasterbattle;
 
 import java.util.List;
-import java.util.Random;
-
 import com.raffledoocious.battleblaster.R;
 import com.raffledoocious.drawing.GameBoard;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
-import android.graphics.Point;
 import android.view.Menu;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 
 public class MainActivity extends Activity {
 
@@ -21,8 +21,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		final View gameBoard = findViewById(R.id.the_board);
+		gameBoard.setOnTouchListener(onTouchListener);
 		Handler h = new Handler();
-		
 		h.postDelayed(new Runnable() {
 			@Override
 			public void run(){
@@ -37,6 +38,25 @@ public class MainActivity extends Activity {
 		frame.removeCallbacks(frameUpdate);
 		frame.postDelayed(frameUpdate, FRAME_RATE);
 	}
+	
+	private OnTouchListener onTouchListener = new OnTouchListener(){
+		public boolean onTouch(View v, MotionEvent event) {
+			if (event.getAction() == MotionEvent.ACTION_DOWN){
+				int x = (int) event.getX();
+				int y = (int) event.getY();
+				
+				GameBoard board = (GameBoard) findViewById(R.id.the_board);
+				if (y >= board.getBottomBarrierY()){
+					board.addBullet(new Bullet(x, y, Player.One));
+				}
+				else if (y <= board.getTopBarrierY()){
+					board.addBullet(new Bullet(x, y, Player.Two));
+				}
+			}
+			
+			return false;
+		}
+	};
 	
 	private Runnable frameUpdate = new Runnable() {
 		@Override
@@ -63,5 +83,7 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+
+
 
 }

@@ -6,10 +6,10 @@ public class Bullet {
 	public int y;
 	private int velocity;
 	
-	private static final int player1Velocity = -1;
-	private static final int player2Velocity = 1;
+	private static final int player1Velocity = -8;
+	private static final int player2Velocity = Math.abs(player1Velocity);
 	
-	public Bullet(int x, int y, Player player, int velocity){
+	public Bullet(int x, int y, Player player){
 		this.x = x;
 		this.y = y;
 		this.player = player;

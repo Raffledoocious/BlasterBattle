@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.raffledoocious.battleblaster.R;
 import com.raffledoocious.blasterbattle.Bullet;
+import com.raffledoocious.blasterbattle.Player;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -24,8 +25,8 @@ public class GameBoard extends View {
 	private Bitmap player2BulletMap;
 	private Rect bulletBounds;
 	private Paint p;
-	private int topBarrierX;
-	private int bottomBarrierX;
+	private int topBarrierY;
+	private int bottomBarrierY;
 	
 	public GameBoard(Context context, AttributeSet attrSet) {
 		super(context, attrSet);
@@ -35,6 +36,7 @@ public class GameBoard extends View {
 		player1BulletMap = BitmapFactory.decodeResource(getResources(), R.drawable.player1bullet);
 		player2BulletMap = BitmapFactory.decodeResource(getResources(), R.drawable.player2bullet);
 		bulletBounds = new Rect(0,0, player1BulletMap.getWidth(), player1BulletMap.getHeight());
+
 	}
 	
 	//accessors for the main drawing method
@@ -54,16 +56,19 @@ public class GameBoard extends View {
 		return bulletBounds.height();
 	}
 	
-	synchronized public int getTopBarrierX(){
-		return topBarrierX;
+	synchronized public int getTopBarrierY(){
+		return topBarrierY;
 	}
 	
-	synchronized public int getBottomBarrierX(){
-		return bottomBarrierX;
+	synchronized public int getBottomBarrierY(){
+		return bottomBarrierY;
 	}
 	
 	@Override
 	synchronized public void onDraw(Canvas canvas)	{
+		bottomBarrierY = getHeight() - ( getHeight() / 8 );
+		topBarrierY = getHeight() / 8;
+		
 		//Draw a black background
 		p.setColor(Color.BLACK);
 		p.setAlpha(255);
@@ -74,16 +79,21 @@ public class GameBoard extends View {
 		p.setColor(Color.YELLOW);
 		p.setStrokeWidth(5);
 		
-		int topLineYStart = getHeight() - ( getHeight() / 8 );
-		canvas.drawLine(0, topLineYStart, getWidth(), topLineYStart, p);
-		canvas.drawLine(0, getHeight() / 8, getWidth(), getHeight() / 8, p);
+		canvas.drawLine(0, topBarrierY, getWidth(), topBarrierY, p);
+		canvas.drawLine(0, bottomBarrierY, getWidth(), bottomBarrierY, p);
 		
 		//draw the bullets
 		for (int i = 0; i < bulletField.size(); i++) {
 			Bullet bullet = bulletField.get(i);
 			
 			if (bullet.x >= 0) {
-				canvas.drawBitmap(player1BulletMap, bullet.x, bullet.y, p);
+				if (bullet.getPlayer() == Player.One){
+					canvas.drawBitmap(player1BulletMap, bullet.x, bullet.y, p);	
+				}
+				else {
+					canvas.drawBitmap(player2BulletMap, bullet.x, bullet.y, p);
+				}
+				
 			}
 		}
 		
