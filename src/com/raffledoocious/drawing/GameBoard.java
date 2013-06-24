@@ -20,7 +20,8 @@ import android.view.View;
 
 public class GameBoard extends View {
 
-	private List<Bullet> bulletField;
+	private List<Bullet> player1Bullets;
+	private List<Bullet> player2Bullets;
 	private Bitmap player1BulletMap;
 	private Bitmap player2BulletMap;
 	private Rect bulletBounds;
@@ -32,7 +33,8 @@ public class GameBoard extends View {
 		super(context, attrSet);
 		
 		p = new Paint();
-		bulletField = new ArrayList<Bullet>();
+		player1Bullets = new ArrayList<Bullet>();
+		player2Bullets = new ArrayList<Bullet>();
 		player1BulletMap = BitmapFactory.decodeResource(getResources(), R.drawable.player1bullet);
 		player2BulletMap = BitmapFactory.decodeResource(getResources(), R.drawable.player2bullet);
 		bulletBounds = new Rect(0,0, player1BulletMap.getWidth(), player1BulletMap.getHeight());
@@ -41,11 +43,21 @@ public class GameBoard extends View {
 	
 	//accessors for the main drawing method
 	synchronized public void addBullet(Bullet bullet){
-		bulletField.add(bullet);
+		if (bullet.getPlayer() == Player.One){
+			player1Bullets.add(bullet);
+		}
+		else {
+			player2Bullets.add(bullet);
+		}
+		
 	}
 	
-	synchronized public List<Bullet> getBullets(){
-		return bulletField;
+	synchronized public List<Bullet> getPlayer1Bullets(){
+		return player1Bullets;
+	}
+	
+	synchronized public List<Bullet> getPlayer2Bullets(){
+		return player2Bullets;
 	}
 	
 	synchronized public int getBulletWidth(){
@@ -62,6 +74,34 @@ public class GameBoard extends View {
 	
 	synchronized public int getBottomBarrierY(){
 		return bottomBarrierY;
+	}
+	
+	/*
+	 * iterates over all bullets in field and checks for collisions
+	 */
+	private List<Point> checkForCollisions(){
+		List<Point> collisions = new ArrayList<Point>();
+		for(Bullet player1Bullet : player1Bullets){
+			for (Bullet player2Bullet : player2Bullets){
+				if (player1Bullet.y == player2Bullet.y) {
+					int player1LowerX = player1Bullet.x - (bulletBounds.width() / 2);
+					int player1UpperX = player1Bullet.x + (bulletBounds.width() / 2);
+					int player2LowerX = player2Bullet.x - (bulletBounds.width() / 2);
+					int player2UpperX = player2Bullet.x + (bulletBounds.width() / 2);
+					
+					//bullet explosion will be based on corners of bullet, 
+					//might need to clean this up in the future
+					if (player1LowerX <= player2UpperX && player1LowerX >= player2LowerX){
+						collisions.add(new Point(player1LowerX, player1Bullet.y));
+					}
+					else if (player1UpperX <= player2UpperX && player1UpperX >= player2LowerX){
+						collisions.add(new Point(player1UpperX, player1Bullet.y));	
+					}
+				}
+				
+			}
+		}
+		return null;
 	}
 	
 	@Override
@@ -83,8 +123,8 @@ public class GameBoard extends View {
 		canvas.drawLine(0, bottomBarrierY, getWidth(), bottomBarrierY, p);
 		
 		//draw the bullets
-		for (int i = 0; i < bulletField.size(); i++) {
-			Bullet bullet = bulletField.get(i);
+		for (int i = 0; i < player1Bullets.size(); i++) {
+			Bullet bullet = player1Bullets.get(i);
 			
 			if (bullet.x >= 0) {
 				if (bullet.getPlayer() == Player.One){

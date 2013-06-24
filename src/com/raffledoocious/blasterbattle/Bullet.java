@@ -6,7 +6,7 @@ public class Bullet {
 	public int y;
 	private int velocity;
 	
-	private static final int player1Velocity = -8;
+	private static final int player1Velocity = -16;
 	private static final int player2Velocity = Math.abs(player1Velocity);
 	
 	public Bullet(int x, int y, Player player){
