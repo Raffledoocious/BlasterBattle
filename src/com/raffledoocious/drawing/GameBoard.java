@@ -28,7 +28,7 @@ public class GameBoard extends View {
 	private Paint p;
 	private int topBarrierY;
 	private int bottomBarrierY;
-	
+	u
 	public GameBoard(Context context, AttributeSet attrSet) {
 		super(context, attrSet);
 		
@@ -74,34 +74,6 @@ public class GameBoard extends View {
 	
 	synchronized public int getBottomBarrierY(){
 		return bottomBarrierY;
-	}
-	
-	/*
-	 * iterates over all bullets in field and checks for collisions
-	 */
-	private List<Point> checkForCollisions(){
-		List<Point> collisions = new ArrayList<Point>();
-		for(Bullet player1Bullet : player1Bullets){
-			for (Bullet player2Bullet : player2Bullets){
-				if (player1Bullet.y == player2Bullet.y) {
-					int player1LowerX = player1Bullet.x - (bulletBounds.width() / 2);
-					int player1UpperX = player1Bullet.x + (bulletBounds.width() / 2);
-					int player2LowerX = player2Bullet.x - (bulletBounds.width() / 2);
-					int player2UpperX = player2Bullet.x + (bulletBounds.width() / 2);
-					
-					//bullet explosion will be based on corners of bullet, 
-					//might need to clean this up in the future
-					if (player1LowerX <= player2UpperX && player1LowerX >= player2LowerX){
-						collisions.add(new Point(player1LowerX, player1Bullet.y));
-					}
-					else if (player1UpperX <= player2UpperX && player1UpperX >= player2LowerX){
-						collisions.add(new Point(player1UpperX, player1Bullet.y));	
-					}
-				}
-				
-			}
-		}
-		return null;
 	}
 	
 	@Override
