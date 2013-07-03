@@ -64,11 +64,18 @@ public class MainActivity extends Activity {
 			frame.removeCallbacks(frameUpdate);
 			
 			//update the positions of the bullets
-			List<Bullet> bullets = ((GameBoard) findViewById(R.id.the_board)).getBullets();
-			for (int i = 0; i < bullets.size(); i++){
-				Bullet bullet = bullets.get(i);
+			List<Bullet> player1Bullets = ((GameBoard) findViewById(R.id.the_board)).getPlayer1Bullets();
+			for (int i = 0; i < player1Bullets.size(); i++){
+				Bullet bullet = player1Bullets.get(i);
 				bullet.updateBulletLocation();
-				bullets.set(i, bullet);
+				player1Bullets.set(i, bullet);
+			}
+			
+			List<Bullet> player2Bullets = ((GameBoard) findViewById(R.id.the_board)).getPlayer2Bullets();
+			for (int i = 0; i < player1Bullets.size(); i++){
+				Bullet bullet = player1Bullets.get(i);
+				bullet.updateBulletLocation();
+				player2Bullets.set(i, bullet);
 			}
 			
 			((GameBoard) findViewById(R.id.the_board)).invalidate();
