@@ -48,7 +48,7 @@ public class GameBoard extends View {
 			for (int j = 0; j < player2Bullets.size(); j++){
 				Bullet p1Bullet = player1Bullets.get(i);
 				Bullet p2Bullet = player2Bullets.get(j);
-				Rect p1BulletBounds = new Rect(p2Bullet.x, p1Bullet.y, p1Bullet.x + player1BulletMap.getWidth(), p1Bullet.y + player1BulletMap.getHeight());
+				Rect p1BulletBounds = new Rect(p1Bullet.x, p1Bullet.y, p1Bullet.x + player1BulletMap.getWidth(), p1Bullet.y + player1BulletMap.getHeight());
 				Rect p2BulletBounds = new Rect(p2Bullet.x, p2Bullet.y, p2Bullet.x + player2BulletMap.getWidth(), p2Bullet.y + player2BulletMap.getHeight());
 				
 				if (p1BulletBounds.intersect(p2BulletBounds)){

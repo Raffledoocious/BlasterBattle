@@ -11,7 +11,6 @@
     <com.raffledoocious.drawing.GameBoard
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_margin="20dip"
         android:id="@+id/the_board"
         />
 

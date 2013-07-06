@@ -66,14 +66,26 @@ public class MainActivity extends Activity {
 			for (int i = 0; i < player1Bullets.size(); i++){
 				Bullet bullet = player1Bullets.get(i);
 				bullet.updateBulletLocation();
-				player1Bullets.set(i, bullet);
+				if (bullet.y <= 0){
+					player1Bullets.remove(bullet);
+				}
+				else {
+					player1Bullets.set(i, bullet);
+				}
+
 			}
 			
 			List<Bullet> player2Bullets = ((GameBoard) findViewById(R.id.the_board)).getPlayer2Bullets();
 			for (int i = 0; i < player2Bullets.size(); i++){
 				Bullet bullet = player2Bullets.get(i);
 				bullet.updateBulletLocation();
-				player2Bullets.set(i, bullet);
+				if (bullet.y >= ((GameBoard) findViewById(R.id.the_board)).getHeight()) {
+					player2Bullets.remove(bullet);
+				}
+				else {
+					player2Bullets.set(i, bullet);
+				}
+
 			}
 			
 			((GameBoard) findViewById(R.id.the_board)).invalidate();
