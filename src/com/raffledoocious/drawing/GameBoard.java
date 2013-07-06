@@ -41,6 +41,26 @@ public class GameBoard extends View {
 
 	}
 	
+	private boolean detectCollisions()
+	{
+		boolean collisions = false;
+		for (int i = 0; i < player1Bullets.size(); i++){
+			for (int j = 0; j < player2Bullets.size(); j++){
+				Bullet p1Bullet = player1Bullets.get(i);
+				Bullet p2Bullet = player2Bullets.get(j);
+				Rect p1BulletBounds = new Rect(p2Bullet.x, p1Bullet.y, p1Bullet.x + player1BulletMap.getWidth(), p1Bullet.y + player1BulletMap.getHeight());
+				Rect p2BulletBounds = new Rect(p2Bullet.x, p2Bullet.y, p2Bullet.x + player2BulletMap.getWidth(), p2Bullet.y + player2BulletMap.getHeight());
+				
+				if (p1BulletBounds.intersect(p2BulletBounds)){
+					p1Bullet.markBulletDestroyed();
+					p2Bullet.markBulletDestroyed();
+				}
+			}
+		}
+		
+		return collisions;
+	}
+	
 	//accessors for the main drawing method
 	synchronized public void addBullet(Bullet bullet){
 		if (bullet.getPlayer() == Player.One){
@@ -49,7 +69,6 @@ public class GameBoard extends View {
 		else {
 			player2Bullets.add(bullet);
 		}
-		
 	}
 	
 	synchronized public List<Bullet> getPlayer1Bullets(){
@@ -94,18 +113,34 @@ public class GameBoard extends View {
 		canvas.drawLine(0, topBarrierY, getWidth(), topBarrierY, p);
 		canvas.drawLine(0, bottomBarrierY, getWidth(), bottomBarrierY, p);
 		
-		//draw the bullets
+		//draw player 1 bullets
 		for (int i = 0; i < player1Bullets.size(); i++) {
 			Bullet bullet = player1Bullets.get(i);
-			canvas.drawBitmap(player1BulletMap, bullet.x, bullet.y, p);	
+			if (bullet.isDestroyed()){
+				player1Bullets.remove(bullet);
+			}
+			else {
+				canvas.drawBitmap(player1BulletMap, bullet.x, bullet.y, p);
+			}	
 		}
 		
+		//draw player 2 bullets
 		for (int i = 0; i < player2Bullets.size(); i++) {
 			Bullet bullet = player2Bullets.get(i);
-			canvas.drawBitmap(player2BulletMap, bullet.x, bullet.y, p);
+			if (bullet.isDestroyed()){
+				player2Bullets.remove(bullet);
+			}
+			else {
+				canvas.drawBitmap(player2BulletMap, bullet.x, bullet.y, p);
+			}
 		}
 		
-		
+		detectCollisions();
 	}
+
+
+
+	
+	
 
 }

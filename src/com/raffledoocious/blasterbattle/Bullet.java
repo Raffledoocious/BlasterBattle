@@ -5,6 +5,7 @@ public class Bullet {
 	public int x;
 	public int y;
 	private int velocity;
+	private boolean destroyed;
 	
 	private static final int player1Velocity = -16;
 	private static final int player2Velocity = Math.abs(player1Velocity);
@@ -13,12 +14,21 @@ public class Bullet {
 		this.x = x;
 		this.y = y;
 		this.player = player;
+		this.destroyed = false;
 		if (player == Player.One){
 			this.velocity = player1Velocity;
 		}
 		else {
 			this.velocity = player2Velocity;
 		}
+	}
+	
+	public void markBulletDestroyed(){
+		this.destroyed = true;
+	}
+	
+	public boolean isDestroyed(){
+		return this.destroyed;
 	}
 	
 	public Player getPlayer(){
