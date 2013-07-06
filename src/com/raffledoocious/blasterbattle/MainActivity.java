@@ -32,9 +32,7 @@ public class MainActivity extends Activity {
 		}, 1000);
 	}
 
-	synchronized public void initGfx() {
-		GameBoard board = (GameBoard) findViewById(R.id.the_board);
-		
+	synchronized public void initGfx() {		
 		frame.removeCallbacks(frameUpdate);
 		frame.postDelayed(frameUpdate, FRAME_RATE);
 	}
@@ -72,8 +70,8 @@ public class MainActivity extends Activity {
 			}
 			
 			List<Bullet> player2Bullets = ((GameBoard) findViewById(R.id.the_board)).getPlayer2Bullets();
-			for (int i = 0; i < player1Bullets.size(); i++){
-				Bullet bullet = player1Bullets.get(i);
+			for (int i = 0; i < player2Bullets.size(); i++){
+				Bullet bullet = player2Bullets.get(i);
 				bullet.updateBulletLocation();
 				player2Bullets.set(i, bullet);
 			}

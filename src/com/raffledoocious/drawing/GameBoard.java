@@ -28,7 +28,7 @@ public class GameBoard extends View {
 	private Paint p;
 	private int topBarrierY;
 	private int bottomBarrierY;
-	u
+	
 	public GameBoard(Context context, AttributeSet attrSet) {
 		super(context, attrSet);
 		
@@ -97,17 +97,14 @@ public class GameBoard extends View {
 		//draw the bullets
 		for (int i = 0; i < player1Bullets.size(); i++) {
 			Bullet bullet = player1Bullets.get(i);
-			
-			if (bullet.x >= 0) {
-				if (bullet.getPlayer() == Player.One){
-					canvas.drawBitmap(player1BulletMap, bullet.x, bullet.y, p);	
-				}
-				else {
-					canvas.drawBitmap(player2BulletMap, bullet.x, bullet.y, p);
-				}
-				
-			}
+			canvas.drawBitmap(player1BulletMap, bullet.x, bullet.y, p);	
 		}
+		
+		for (int i = 0; i < player2Bullets.size(); i++) {
+			Bullet bullet = player2Bullets.get(i);
+			canvas.drawBitmap(player2BulletMap, bullet.x, bullet.y, p);
+		}
+		
 		
 	}
 
