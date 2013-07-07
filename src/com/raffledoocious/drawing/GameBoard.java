@@ -29,6 +29,9 @@ public class GameBoard extends View {
 	private int topBarrierY;
 	private int bottomBarrierY;
 	
+	private int player1Score;
+	private int player2Score;
+	
 	public GameBoard(Context context, AttributeSet attrSet) {
 		super(context, attrSet);
 		
@@ -54,11 +57,32 @@ public class GameBoard extends View {
 				if (p1BulletBounds.intersect(p2BulletBounds)){
 					p1Bullet.markBulletDestroyed();
 					p2Bullet.markBulletDestroyed();
+					collisions = true;
 				}
 			}
 		}
 		
 		return collisions;
+	}
+	
+
+	private void checkForScoringBullets() {
+		//mark bullets which moved scored as destroyed
+		for (int i = 0; i < player1Bullets.size(); i++){
+			Bullet bullet = player1Bullets.get(i);
+			if (bullet.y <= 0 && !bullet.isDestroyed()){
+				bullet.markBulletDestroyed();
+				player1Score++;
+			}
+		}
+		
+		for (int i = 0; i < player2Bullets.size(); i++){
+			Bullet bullet = player2Bullets.get(i);
+			if (bullet.y <= 0 && !bullet.isDestroyed()){
+				bullet.markBulletDestroyed();
+				player2Score++;
+			}
+		}		
 	}
 	
 	//accessors for the main drawing method
@@ -113,30 +137,50 @@ public class GameBoard extends View {
 		canvas.drawLine(0, topBarrierY, getWidth(), topBarrierY, p);
 		canvas.drawLine(0, bottomBarrierY, getWidth(), bottomBarrierY, p);
 		
+		//remove destroyed bullets
+		for (int i = 0; i < player1Bullets.size(); i++){
+			if (player1Bullets.get(i).isDestroyed()){
+				player1Bullets.remove(i);
+			}
+		}
+		
+		for (int i = 0; i < player2Bullets.size(); i++){
+			if (player2Bullets.get(i).isDestroyed()){
+				player2Bullets.remove(i);
+			}
+		}
+		
 		//draw player 1 bullets
 		for (int i = 0; i < player1Bullets.size(); i++) {
 			Bullet bullet = player1Bullets.get(i);
-			if (bullet.isDestroyed()){
-				player1Bullets.remove(bullet);
-			}
-			else {
-				canvas.drawBitmap(player1BulletMap, bullet.x, bullet.y, p);
-			}	
+			canvas.drawBitmap(player1BulletMap, bullet.x, bullet.y, p);
 		}
 		
 		//draw player 2 bullets
 		for (int i = 0; i < player2Bullets.size(); i++) {
 			Bullet bullet = player2Bullets.get(i);
-			if (bullet.isDestroyed()){
-				player2Bullets.remove(bullet);
-			}
-			else {
-				canvas.drawBitmap(player2BulletMap, bullet.x, bullet.y, p);
-			}
+			canvas.drawBitmap(player2BulletMap, bullet.x, bullet.y, p);
 		}
 		
+		//draw player scores
+		p.setColor(Color.WHITE);
+		
+		//draw player 2 score upside down
+		canvas.save(); 
+        float py = this.getHeight()/2.0f;
+        float px = this.getWidth()/2.0f;
+        canvas.rotate(180, px, py); 
+		canvas.drawText(String.valueOf(player2Score), 5, 5, p);
+		canvas.restore();
+
+		//draw player 1 score upside down
+		canvas.drawText(String.valueOf(player1Score), 5, getHeight() - 5, p);
+		
+		//update collisions to remove bullets in next frame
 		detectCollisions();
+		checkForScoringBullets();
 	}
+
 
 
 

@@ -17,6 +17,9 @@ public class MainActivity extends Activity {
 	private Handler frame = new Handler();	
 	private static final int FRAME_RATE = 20;
 	
+	private int player1Score;
+	private int player2Score;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -30,6 +33,9 @@ public class MainActivity extends Activity {
 				initGfx();
 			}
 		}, 1000);
+		
+		player1Score = 0;
+		player2Score = 0;
 	}
 
 	synchronized public void initGfx() {		
@@ -66,26 +72,14 @@ public class MainActivity extends Activity {
 			for (int i = 0; i < player1Bullets.size(); i++){
 				Bullet bullet = player1Bullets.get(i);
 				bullet.updateBulletLocation();
-				if (bullet.y <= 0){
-					player1Bullets.remove(bullet);
-				}
-				else {
-					player1Bullets.set(i, bullet);
-				}
-
+				player1Bullets.set(i, bullet);
 			}
 			
 			List<Bullet> player2Bullets = ((GameBoard) findViewById(R.id.the_board)).getPlayer2Bullets();
 			for (int i = 0; i < player2Bullets.size(); i++){
 				Bullet bullet = player2Bullets.get(i);
 				bullet.updateBulletLocation();
-				if (bullet.y >= ((GameBoard) findViewById(R.id.the_board)).getHeight()) {
-					player2Bullets.remove(bullet);
-				}
-				else {
-					player2Bullets.set(i, bullet);
-				}
-
+				player2Bullets.set(i, bullet);
 			}
 			
 			((GameBoard) findViewById(R.id.the_board)).invalidate();
