@@ -26,6 +26,7 @@ public class GameBoard extends View {
 	private Bitmap player2BulletMap;
 	private Rect bulletBounds;
 	private Paint p;
+	private Paint textPaint;
 	private int topBarrierY;
 	private int bottomBarrierY;
 	
@@ -36,6 +37,9 @@ public class GameBoard extends View {
 		super(context, attrSet);
 		
 		p = new Paint();
+		textPaint = new Paint();
+		textPaint.setColor(Color.WHITE);
+		textPaint.setTextSize(25);
 		player1Bullets = new ArrayList<Bullet>();
 		player2Bullets = new ArrayList<Bullet>();
 		player1BulletMap = BitmapFactory.decodeResource(getResources(), R.drawable.player1bullet);
@@ -78,7 +82,7 @@ public class GameBoard extends View {
 		
 		for (int i = 0; i < player2Bullets.size(); i++){
 			Bullet bullet = player2Bullets.get(i);
-			if (bullet.y <= 0 && !bullet.isDestroyed()){
+			if (bullet.y >= getHeight() && !bullet.isDestroyed()){
 				bullet.markBulletDestroyed();
 				player2Score++;
 			}
@@ -163,18 +167,18 @@ public class GameBoard extends View {
 		}
 		
 		//draw player scores
-		p.setColor(Color.WHITE);
+		
 		
 		//draw player 2 score upside down
 		canvas.save(); 
         float py = this.getHeight()/2.0f;
         float px = this.getWidth()/2.0f;
         canvas.rotate(180, px, py); 
-		canvas.drawText(String.valueOf(player2Score), 5, 5, p);
+		canvas.drawText(String.valueOf(player2Score), 5, getHeight() - 5, textPaint);
 		canvas.restore();
 
 		//draw player 1 score upside down
-		canvas.drawText(String.valueOf(player1Score), 5, getHeight() - 5, p);
+		canvas.drawText(String.valueOf(player1Score), 5, getHeight() - 5, textPaint);
 		
 		//update collisions to remove bullets in next frame
 		detectCollisions();
