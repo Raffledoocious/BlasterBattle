@@ -166,9 +166,6 @@ public class GameBoard extends View {
 			canvas.drawBitmap(player2BulletMap, bullet.x, bullet.y, p);
 		}
 		
-		//draw player scores
-		
-		
 		//draw player 2 score upside down
 		canvas.save(); 
         float py = this.getHeight()/2.0f;
@@ -177,7 +174,7 @@ public class GameBoard extends View {
 		canvas.drawText(String.valueOf(player2Score), 5, getHeight() - 5, textPaint);
 		canvas.restore();
 
-		//draw player 1 score upside down
+		//draw player 1 score
 		canvas.drawText(String.valueOf(player1Score), 5, getHeight() - 5, textPaint);
 		
 		//update collisions to remove bullets in next frame

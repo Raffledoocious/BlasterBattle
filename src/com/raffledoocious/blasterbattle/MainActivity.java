@@ -48,8 +48,14 @@ public class MainActivity extends Activity {
 			if (event.getAction() == MotionEvent.ACTION_DOWN){
 				int x = (int) event.getX();
 				int y = (int) event.getY();
-				
 				GameBoard board = (GameBoard) findViewById(R.id.the_board);
+				
+				//handles touches close to edge so bullet is not drawn off screen
+				if (x > (board.getWidth() - board.getBulletWidth()) ){
+					x = board.getWidth() - board.getBulletWidth();
+				}
+				
+				//draw correct bullet for correct player
 				if (y >= board.getBottomBarrierY()){
 					board.addBullet(new Bullet(x, y, Player.One));
 				}
