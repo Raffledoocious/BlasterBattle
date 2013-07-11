@@ -13,18 +13,23 @@ import android.view.MotionEvent;
 import android.view.MotionEvent.PointerCoords;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.Window;
+import android.view.WindowManager;
 
 public class MainActivity extends Activity {
 
 	private Handler frame = new Handler();	
 	private static final int FRAME_RATE = 20;
 	
-	private int player1Score;
-	private int player2Score;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+		                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		
 		setContentView(R.layout.activity_main);
 		final View gameBoard = findViewById(R.id.the_board);
 		gameBoard.setOnTouchListener(onTouchListener);
@@ -35,9 +40,6 @@ public class MainActivity extends Activity {
 				initGfx();
 			}
 		}, 1000);
-		
-		player1Score = 0;
-		player2Score = 0;
 	}
 
 	synchronized public void initGfx() {		

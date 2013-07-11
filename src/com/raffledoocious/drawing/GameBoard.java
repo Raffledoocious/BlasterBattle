@@ -181,11 +181,4 @@ public class GameBoard extends View {
 		detectCollisions();
 		checkForScoringBullets();
 	}
-
-
-
-
-	
-	
-
 }
