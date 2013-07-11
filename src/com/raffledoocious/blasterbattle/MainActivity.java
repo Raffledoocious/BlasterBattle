@@ -7,8 +7,10 @@ import com.raffledoocious.drawing.GameBoard;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
+import android.support.v4.view.MotionEventCompat;
 import android.view.Menu;
 import android.view.MotionEvent;
+import android.view.MotionEvent.PointerCoords;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
@@ -45,17 +47,22 @@ public class MainActivity extends Activity {
 	
 	private OnTouchListener onTouchListener = new OnTouchListener(){
 		public boolean onTouch(View v, MotionEvent event) {
-			if (event.getAction() == MotionEvent.ACTION_DOWN){
-				int x = (int) event.getX();
-				int y = (int) event.getY();
+			int action = MotionEventCompat.getActionMasked(event);
+			int index = MotionEventCompat.getActionIndex(event);
+			
+			if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_POINTER_DOWN){
+
 				GameBoard board = (GameBoard) findViewById(R.id.the_board);
-				
-				//handles touches close to edge so bullet is not drawn off screen
+								
+				int x = (int) Math.round(MotionEventCompat.getX(event, index));
+				int y = (int) Math.round(MotionEventCompat.getY(event, index));
+					
+				//handles touches close to  right edge so bullet is not drawn off screen
 				if (x > (board.getWidth() - board.getBulletWidth()) ){
 					x = board.getWidth() - board.getBulletWidth();
 				}
 				
-				//draw correct bullet for correct player
+				//draw bullet for correct player depending on where touch was
 				if (y >= board.getBottomBarrierY()){
 					board.addBullet(new Bullet(x, y, Player.One));
 				}
@@ -64,7 +71,7 @@ public class MainActivity extends Activity {
 				}
 			}
 			
-			return false;
+			return true;
 		}
 	};
 	
