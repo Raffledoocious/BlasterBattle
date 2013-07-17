@@ -10,18 +10,15 @@ import android.app.Activity;
 import android.support.v4.view.MotionEventCompat;
 import android.view.Menu;
 import android.view.MotionEvent;
-import android.view.MotionEvent.PointerCoords;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class MainActivity extends Activity {
-
+public class MainActivity extends Activity {	
 	private Handler frame = new Handler();	
 	private static final int FRAME_RATE = 20;
 	
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,28 +46,36 @@ public class MainActivity extends Activity {
 	
 	private OnTouchListener onTouchListener = new OnTouchListener(){
 		public boolean onTouch(View v, MotionEvent event) {
-			int action = MotionEventCompat.getActionMasked(event);
-			int index = MotionEventCompat.getActionIndex(event);
+			GameBoard board = (GameBoard) findViewById(R.id.the_board);
 			
-			if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_POINTER_DOWN){
-
-				GameBoard board = (GameBoard) findViewById(R.id.the_board);
-								
-				int x = (int) Math.round(MotionEventCompat.getX(event, index));
-				int y = (int) Math.round(MotionEventCompat.getY(event, index));
-					
-				//handles touches close to  right edge so bullet is not drawn off screen
-				if (x > (board.getWidth() - board.getBulletWidth()) ){
-					x = board.getWidth() - board.getBulletWidth();
-				}
+			if (board.getGameState() == GameState.Waiting){
+				board.setGameState(GameState.Running);
+			}
+			else if (board.getGameState() == GameState.Running){
+				int action = MotionEventCompat.getActionMasked(event);
+				int index = MotionEventCompat.getActionIndex(event);
 				
-				//draw bullet for correct player depending on where touch was
-				if (y >= board.getBottomBarrierY()){
-					board.addBullet(new Bullet(x, y, Player.One));
+				if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_POINTER_DOWN){
+									
+					int x = (int) Math.round(MotionEventCompat.getX(event, index));
+					int y = (int) Math.round(MotionEventCompat.getY(event, index));
+						
+					//handles touches close to  right edge so bullet is not drawn off screen
+					if (x > (board.getWidth() - board.getBulletWidth()) ){
+						x = board.getWidth() - board.getBulletWidth();
+					}
+					
+					//draw bullet for correct player depending on where touch was
+					if (y >= board.getBottomBarrierY()){
+						board.addBullet(new Bullet(x, y, Player.One));
+					}
+					else if (y <= board.getTopBarrierY()){
+						board.addBullet(new Bullet(x, y, Player.Two));
+					}
 				}
-				else if (y <= board.getTopBarrierY()){
-					board.addBullet(new Bullet(x, y, Player.Two));
-				}
+			}
+			else if (board.getGameState() == GameState.Ended){
+				board.setGameState(GameState.Ended);
 			}
 			
 			return true;

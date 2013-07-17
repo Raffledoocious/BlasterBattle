@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.raffledoocious.battleblaster.R;
 import com.raffledoocious.blasterbattle.Bullet;
+import com.raffledoocious.blasterbattle.GameState;
 import com.raffledoocious.blasterbattle.Player;
 
 import android.content.Context;
@@ -25,13 +26,17 @@ public class GameBoard extends View {
 	private Bitmap player1BulletMap;
 	private Bitmap player2BulletMap;
 	private Rect bulletBounds;
+	
 	private Paint p;
 	private Paint textPaint;
+	
 	private int topBarrierY;
 	private int bottomBarrierY;
 	
 	private int player1Score;
 	private int player2Score;
+	
+	private GameState gameState;
 	
 	public GameBoard(Context context, AttributeSet attrSet) {
 		super(context, attrSet);
@@ -46,6 +51,7 @@ public class GameBoard extends View {
 		player2BulletMap = BitmapFactory.decodeResource(getResources(), R.drawable.player2bullet);
 		bulletBounds = new Rect(0,0, player1BulletMap.getWidth(), player1BulletMap.getHeight());
 
+		gameState = GameState.Waiting;
 	}
 	
 	private boolean detectCollisions()
@@ -123,6 +129,14 @@ public class GameBoard extends View {
 		return bottomBarrierY;
 	}
 	
+	synchronized public GameState getGameState(){
+		return gameState;
+	}
+	
+	synchronized public void setGameState(GameState gameState){
+		this.gameState = gameState;
+	}
+	
 	@Override
 	synchronized public void onDraw(Canvas canvas)	{
 		bottomBarrierY = getHeight() - ( getHeight() / 8 );
@@ -146,8 +160,7 @@ public class GameBoard extends View {
 			if (player1Bullets.get(i).isDestroyed()){
 				player1Bullets.remove(i);
 			}
-		}
-		
+		}		
 		for (int i = 0; i < player2Bullets.size(); i++){
 			if (player2Bullets.get(i).isDestroyed()){
 				player2Bullets.remove(i);
