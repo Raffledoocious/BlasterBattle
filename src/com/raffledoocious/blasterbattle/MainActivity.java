@@ -49,8 +49,18 @@ public class MainActivity extends Activity {
 			GameBoard board = (GameBoard) findViewById(R.id.the_board);
 			
 			if (board.getGameState() == GameState.Waiting){
+				
+				//detect if there are two or more pointers
+				if (MotionEventCompat.getPointerCount(event) >= 2){
+					board.setStartTime(System.currentTimeMillis());
+					board.setGameState(GameState.GameStarting);
+				}
+			}
+			
+			else if (board.getGameState() == GameState.GameStarting){
 				board.setGameState(GameState.Running);
 			}
+			
 			else if (board.getGameState() == GameState.Running){
 				int action = MotionEventCompat.getActionMasked(event);
 				int index = MotionEventCompat.getActionIndex(event);

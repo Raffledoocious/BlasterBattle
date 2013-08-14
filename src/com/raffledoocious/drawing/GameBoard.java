@@ -36,6 +36,8 @@ public class GameBoard extends View {
 	private int player1Score;
 	private int player2Score;
 	
+	private long startTime;
+	
 	private GameState gameState;
 	
 	public GameBoard(Context context, AttributeSet attrSet) {
@@ -137,6 +139,10 @@ public class GameBoard extends View {
 		this.gameState = gameState;
 	}
 	
+	synchronized public void setStartTime(long startTime){
+		this.startTime = startTime;
+	}
+	
 	@Override
 	synchronized public void onDraw(Canvas canvas)	{
 		bottomBarrierY = getHeight() - ( getHeight() / 8 );
@@ -146,6 +152,7 @@ public class GameBoard extends View {
 		p.setColor(Color.BLACK);
 		p.setAlpha(255);
 		p.setStrokeWidth(1);
+		p.setStyle(Paint.Style.FILL);
 		canvas.drawRect(0, 0, getWidth(), getHeight(), p);
 		
 		//draw the game lines
@@ -155,6 +162,28 @@ public class GameBoard extends View {
 		canvas.drawLine(0, topBarrierY, getWidth(), topBarrierY, p);
 		canvas.drawLine(0, bottomBarrierY, getWidth(), bottomBarrierY, p);
 		
+		if (gameState == GameState.Running){
+			drawBullets(canvas);
+		}
+		else if (gameState == GameState.Ended){
+			drawScores(canvas);
+		}
+		else if (gameState == GameState.Waiting){
+			drawStartMessage(canvas);
+		}
+
+	}
+	
+	private void drawStartMessage(Canvas canvas) {
+		canvas.drawText("Each player touch the screen", 30, getHeight() / 2, textPaint);		
+	}
+
+	private void drawScores(Canvas canvas) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void drawBullets(Canvas canvas){
 		//remove destroyed bullets
 		for (int i = 0; i < player1Bullets.size(); i++){
 			if (player1Bullets.get(i).isDestroyed()){
