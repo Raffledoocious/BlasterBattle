@@ -53,14 +53,9 @@ public class MainActivity extends Activity {
 				//detect if there are two or more pointers
 				if (MotionEventCompat.getPointerCount(event) >= 2){
 					board.setStartTime(System.currentTimeMillis());
-					board.setGameState(GameState.GameStarting);
+					board.setGameState(GameState.Starting);
 				}
 			}
-			
-			else if (board.getGameState() == GameState.GameStarting){
-				board.setGameState(GameState.Running);
-			}
-			
 			else if (board.getGameState() == GameState.Running){
 				int action = MotionEventCompat.getActionMasked(event);
 				int index = MotionEventCompat.getActionIndex(event);

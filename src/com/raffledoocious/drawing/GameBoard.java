@@ -37,6 +37,7 @@ public class GameBoard extends View {
 	private int player2Score;
 	
 	private long startTime;
+	private Paint countdownPaint;
 	
 	private GameState gameState;
 	
@@ -47,6 +48,9 @@ public class GameBoard extends View {
 		textPaint = new Paint();
 		textPaint.setColor(Color.WHITE);
 		textPaint.setTextSize(25);
+		countdownPaint = new Paint();
+		countdownPaint.setColor(Color.WHITE);
+		countdownPaint.setTextSize(200);
 		player1Bullets = new ArrayList<Bullet>();
 		player2Bullets = new ArrayList<Bullet>();
 		player1BulletMap = BitmapFactory.decodeResource(getResources(), R.drawable.player1bullet);
@@ -165,6 +169,9 @@ public class GameBoard extends View {
 		if (gameState == GameState.Running){
 			drawBullets(canvas);
 		}
+		else if (gameState == GameState.Starting){
+			drawCountdown(canvas);
+		}
 		else if (gameState == GameState.Ended){
 			drawScores(canvas);
 		}
@@ -175,12 +182,28 @@ public class GameBoard extends View {
 	}
 	
 	private void drawStartMessage(Canvas canvas) {
-		canvas.drawText("Each player touch the screen", 30, getHeight() / 2, textPaint);		
+		canvas.drawText("Place a finger on the screen.", 10, bottomBarrierY - 30, textPaint);
+		RotateCanvas(canvas);		
+		canvas.drawText("Place a finger on the screen.", 10, bottomBarrierY - 30, textPaint);
+		canvas.restore();
 	}
 
 	private void drawScores(Canvas canvas) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private void drawCountdown(Canvas canvas){
+		long currentTime = System.currentTimeMillis();
+		long timeLeft = currentTime - startTime;
+		int displayTime = 5 - ((int) Math.ceil(timeLeft) / 1000);
+		if (displayTime <= 0) {
+			gameState = GameState.Running;
+		}
+		else
+		{
+			canvas.drawText(String.valueOf(displayTime), (getWidth() / 2) - 50, (getHeight() / 2) + 50, countdownPaint);
+		}
 	}
 
 	private void drawBullets(Canvas canvas){
@@ -209,10 +232,7 @@ public class GameBoard extends View {
 		}
 		
 		//draw player 2 score upside down
-		canvas.save(); 
-        float py = this.getHeight()/2.0f;
-        float px = this.getWidth()/2.0f;
-        canvas.rotate(180, px, py); 
+		RotateCanvas(canvas);
 		canvas.drawText(String.valueOf(player2Score), 5, getHeight() - 5, textPaint);
 		canvas.restore();
 
@@ -222,5 +242,12 @@ public class GameBoard extends View {
 		//update collisions to remove bullets in next frame
 		detectCollisions();
 		checkForScoringBullets();
+	}
+	
+	private void RotateCanvas(Canvas canvas){
+		canvas.save(); 
+        float py = this.getHeight()/2.0f;
+        float px = this.getWidth()/2.0f;
+        canvas.rotate(180, px, py);
 	}
 }
