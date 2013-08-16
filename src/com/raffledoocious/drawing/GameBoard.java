@@ -199,6 +199,7 @@ public class GameBoard extends View {
 		int displayTime = 5 - ((int) Math.ceil(timeLeft) / 1000);
 		if (displayTime <= 0) {
 			gameState = GameState.Running;
+			startTime = System.currentTimeMillis();
 		}
 		else
 		{
@@ -207,6 +208,18 @@ public class GameBoard extends View {
 	}
 
 	private void drawBullets(Canvas canvas){
+		//draw the time before the bullets
+		long currentTime = System.currentTimeMillis();
+		long timeLeft = currentTime - startTime;
+		int displayTime = 30 - ((int) Math.ceil(timeLeft) / 1000);
+		if (displayTime <= 0) {
+			gameState = GameState.Ended;
+			
+		}
+		else if (displayTime > 0 && displayTime <= 5){
+			canvas.drawText(String.valueOf(displayTime), (getWidth() / 2) - 50, (getHeight() / 2) + 50, countdownPaint);
+		}
+		
 		//remove destroyed bullets
 		for (int i = 0; i < player1Bullets.size(); i++){
 			if (player1Bullets.get(i).isDestroyed()){
