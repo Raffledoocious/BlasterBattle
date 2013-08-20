@@ -189,8 +189,25 @@ public class GameBoard extends View {
 	}
 
 	private void drawScores(Canvas canvas) {
-		// TODO Auto-generated method stub
-		
+		canvas.drawText(String.valueOf(player1Score) + "-" + String.valueOf(player2Score), 10, getHeight() / 2, textPaint);
+		if (player1Score > player2Score){
+			canvas.drawText("You win!", 10, 10, textPaint);
+			RotateCanvas(canvas);
+			canvas.drawText("You lose!", 10, 10, textPaint);
+			canvas.restore();
+		}
+		else if (player2Score > player1Score){
+			canvas.drawText("You lose!", 10, 10, textPaint);
+			RotateCanvas(canvas);
+			canvas.drawText("You win!", 10, 10, textPaint);
+			canvas.restore();
+		}
+		else {
+			canvas.drawText("Tie!", 10, 10, textPaint);
+			RotateCanvas(canvas);
+			canvas.drawText("Tie!", 10, 10, textPaint);
+			canvas.restore();
+		}		
 	}
 	
 	private void drawCountdown(Canvas canvas){
