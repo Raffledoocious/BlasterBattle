@@ -80,7 +80,10 @@ public class MainActivity extends Activity {
 				}
 			}
 			else if (board.getGameState() == GameState.Ended){
-				board.setGameState(GameState.Ended);
+				int action = MotionEventCompat.getActionMasked(event);
+				if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_POINTER_DOWN){
+					board.setGameState(GameState.Waiting);
+				}
 			}
 			
 			return true;

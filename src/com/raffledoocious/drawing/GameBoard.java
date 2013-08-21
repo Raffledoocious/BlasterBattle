@@ -176,6 +176,8 @@ public class GameBoard extends View {
 			drawScores(canvas);
 		}
 		else if (gameState == GameState.Waiting){
+			player1Score = 0;
+			player2Score = 0;
 			drawStartMessage(canvas);
 		}
 
@@ -189,28 +191,29 @@ public class GameBoard extends View {
 	}
 
 	private void drawScores(Canvas canvas) {
-		canvas.drawText(String.valueOf(player1Score) + "-" + String.valueOf(player2Score), 10, getHeight() / 2, textPaint);
+		canvas.drawText(String.valueOf(player1Score) + "-" + String.valueOf(player2Score), 10, getHeight() / 2, countdownPaint);
 		if (player1Score > player2Score){
-			canvas.drawText("You win!", 10, 10, textPaint);
+			canvas.drawText("You lose!", 5, getHeight() - 5, textPaint);
 			RotateCanvas(canvas);
-			canvas.drawText("You lose!", 10, 10, textPaint);
+			canvas.drawText("You win", 5, getHeight() - 5, textPaint);
 			canvas.restore();
 		}
 		else if (player2Score > player1Score){
-			canvas.drawText("You lose!", 10, 10, textPaint);
+			canvas.drawText("You win!", 5, getHeight() - 5, textPaint);
 			RotateCanvas(canvas);
-			canvas.drawText("You win!", 10, 10, textPaint);
+			canvas.drawText("You lose!", 5, getHeight() - 5, textPaint);
 			canvas.restore();
 		}
 		else {
-			canvas.drawText("Tie!", 10, 10, textPaint);
+			canvas.drawText("Tie!", 5, getHeight() - 5, textPaint);
 			RotateCanvas(canvas);
-			canvas.drawText("Tie!", 10, 10, textPaint);
+			canvas.drawText("Tie!", 5, getHeight() - 5, textPaint);
 			canvas.restore();
-		}		
+		}
 	}
 	
 	private void drawCountdown(Canvas canvas){
+		
 		long currentTime = System.currentTimeMillis();
 		long timeLeft = currentTime - startTime;
 		int displayTime = 5 - ((int) Math.ceil(timeLeft) / 1000);
