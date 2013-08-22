@@ -4,5 +4,6 @@
     <string name="app_name">BattleBlaster</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="blaster_battle">Blaster Battle</string>
 
 </resources>
