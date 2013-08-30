@@ -21,7 +21,6 @@ import android.view.View;
 
 public class GameBoard extends View {
 
-	private List<Bullet> player2Bullets;
 	private Bitmap player1BulletMap;
 	private Bitmap player2BulletMap;
 	private Rect bulletBounds;
@@ -52,7 +51,6 @@ public class GameBoard extends View {
 		countdownPaint = new Paint();
 		countdownPaint.setColor(Color.WHITE);
 		countdownPaint.setTextSize(200);
-		player2Bullets = new ArrayList<Bullet>();
 		player1BulletMap = BitmapFactory.decodeResource(getResources(), R.drawable.player1bullet);
 		player2BulletMap = BitmapFactory.decodeResource(getResources(), R.drawable.player2bullet);
 		bulletBounds = new Rect(0,0, player1BulletMap.getWidth(), player1BulletMap.getHeight());
@@ -64,9 +62,9 @@ public class GameBoard extends View {
 	{
 		boolean collisions = false;
 		for (int i = 0; i < getPlayer1Bullets().size(); i++){
-			for (int j = 0; j < player2Bullets.size(); j++){
+			for (int j = 0; j < getPlayer2Bullets().size(); j++){
 				Bullet p1Bullet = getPlayer1Bullets().get(i);
-				Bullet p2Bullet = player2Bullets.get(j);
+				Bullet p2Bullet = getPlayer2Bullets().get(j);
 				Rect p1BulletBounds = new Rect(p1Bullet.x, p1Bullet.y, p1Bullet.x + player1BulletMap.getWidth(), p1Bullet.y + player1BulletMap.getHeight());
 				Rect p2BulletBounds = new Rect(p2Bullet.x, p2Bullet.y, p2Bullet.x + player2BulletMap.getWidth(), p2Bullet.y + player2BulletMap.getHeight());
 				
@@ -92,8 +90,8 @@ public class GameBoard extends View {
 			}
 		}
 		
-		for (int i = 0; i < player2Bullets.size(); i++){
-			Bullet bullet = player2Bullets.get(i);
+		for (int i = 0; i < getPlayer2Bullets().size(); i++){
+			Bullet bullet = getPlayer2Bullets().get(i);
 			if (bullet.y >= getHeight() && !bullet.isDestroyed()){
 				bullet.markBulletDestroyed();
 				player2Score++;
@@ -107,7 +105,7 @@ public class GameBoard extends View {
 			bulletManager.getPlayerBullets(Player.One).add(bullet);
 		}
 		else {
-			player2Bullets.add(bullet);
+			bulletManager.getPlayerBullets(Player.Two).add(bullet);
 		}
 	}
 	
@@ -116,7 +114,7 @@ public class GameBoard extends View {
 	}
 	
 	synchronized public List<Bullet> getPlayer2Bullets(){
-		return player2Bullets;
+		return bulletManager.getPlayerBullets(Player.Two);
 	}
 	
 	synchronized public int getBulletWidth(){
@@ -246,9 +244,9 @@ public class GameBoard extends View {
 				getPlayer1Bullets().remove(i);
 			}
 		}		
-		for (int i = 0; i < player2Bullets.size(); i++){
-			if (player2Bullets.get(i).isDestroyed()){
-				player2Bullets.remove(i);
+		for (int i = 0; i < getPlayer2Bullets().size(); i++){
+			if (getPlayer2Bullets().get(i).isDestroyed()){
+				getPlayer2Bullets().remove(i);
 			}
 		}
 		
@@ -259,8 +257,8 @@ public class GameBoard extends View {
 		}
 		
 		//draw player 2 bullets
-		for (int i = 0; i < player2Bullets.size(); i++) {
-			Bullet bullet = player2Bullets.get(i);
+		for (int i = 0; i < getPlayer2Bullets().size(); i++) {
+			Bullet bullet = getPlayer2Bullets().get(i);
 			canvas.drawBitmap(player2BulletMap, bullet.x, bullet.y, p);
 		}
 		
