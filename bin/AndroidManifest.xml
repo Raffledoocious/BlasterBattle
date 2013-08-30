@@ -32,6 +32,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
+        
+        <activity 
+        	android:name="com.raffledoocious.blasterbattle.GameActivity"
+        	android:label="@string/game_activity" >
+            
+        </activity>   
+        	
+        </application>
 
 </manifest>
