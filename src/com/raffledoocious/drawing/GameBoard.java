@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Align;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
@@ -51,6 +52,7 @@ public class GameBoard extends View {
 		countdownPaint = new Paint();
 		countdownPaint.setColor(Color.WHITE);
 		countdownPaint.setTextSize(200);
+		countdownPaint.setTextAlign(Align.CENTER);
 		player1BulletMap = BitmapFactory.decodeResource(getResources(), R.drawable.player1bullet);
 		player2BulletMap = BitmapFactory.decodeResource(getResources(), R.drawable.player2bullet);
 		bulletBounds = new Rect(0,0, player1BulletMap.getWidth(), player1BulletMap.getHeight());
@@ -189,7 +191,7 @@ public class GameBoard extends View {
 	}
 
 	private void drawScores(Canvas canvas) {
-		canvas.drawText(String.valueOf(player1Score) + "-" + String.valueOf(player2Score), 10, getHeight() / 2, countdownPaint);
+		canvas.drawText(String.valueOf(player1Score) + "-" + String.valueOf(player2Score), getWidth() / 2, getHeight() / 2, countdownPaint);
 		if (player1Score > player2Score){
 			canvas.drawText("You lose!", 5, getHeight() - 5, textPaint);
 			RotateCanvas(canvas);
@@ -221,7 +223,7 @@ public class GameBoard extends View {
 		}
 		else
 		{
-			canvas.drawText(String.valueOf(displayTime), (getWidth() / 2) - 50, (getHeight() / 2) + 50, countdownPaint);
+			canvas.drawText(String.valueOf(displayTime), getWidth() / 2, getHeight() / 2, countdownPaint);
 		}
 	}
 
@@ -235,7 +237,7 @@ public class GameBoard extends View {
 			
 		}
 		else if (displayTime > 0 && displayTime <= 5){
-			canvas.drawText(String.valueOf(displayTime), (getWidth() / 2) - 50, (getHeight() / 2) + 50, countdownPaint);
+			canvas.drawText(String.valueOf(displayTime), getWidth() / 2, getHeight() / 2, countdownPaint);
 		}
 		
 		//remove destroyed bullets
