@@ -21,7 +21,6 @@ import android.view.View;
 
 public class GameBoard extends View {
 
-	private List<Bullet> player1Bullets;
 	private List<Bullet> player2Bullets;
 	private Bitmap player1BulletMap;
 	private Bitmap player2BulletMap;
@@ -53,7 +52,6 @@ public class GameBoard extends View {
 		countdownPaint = new Paint();
 		countdownPaint.setColor(Color.WHITE);
 		countdownPaint.setTextSize(200);
-		player1Bullets = new ArrayList<Bullet>();
 		player2Bullets = new ArrayList<Bullet>();
 		player1BulletMap = BitmapFactory.decodeResource(getResources(), R.drawable.player1bullet);
 		player2BulletMap = BitmapFactory.decodeResource(getResources(), R.drawable.player2bullet);
@@ -65,9 +63,9 @@ public class GameBoard extends View {
 	private boolean detectCollisions()
 	{
 		boolean collisions = false;
-		for (int i = 0; i < player1Bullets.size(); i++){
+		for (int i = 0; i < getPlayer1Bullets().size(); i++){
 			for (int j = 0; j < player2Bullets.size(); j++){
-				Bullet p1Bullet = player1Bullets.get(i);
+				Bullet p1Bullet = getPlayer1Bullets().get(i);
 				Bullet p2Bullet = player2Bullets.get(j);
 				Rect p1BulletBounds = new Rect(p1Bullet.x, p1Bullet.y, p1Bullet.x + player1BulletMap.getWidth(), p1Bullet.y + player1BulletMap.getHeight());
 				Rect p2BulletBounds = new Rect(p2Bullet.x, p2Bullet.y, p2Bullet.x + player2BulletMap.getWidth(), p2Bullet.y + player2BulletMap.getHeight());
@@ -243,9 +241,9 @@ public class GameBoard extends View {
 		}
 		
 		//remove destroyed bullets
-		for (int i = 0; i < player1Bullets.size(); i++){
-			if (player1Bullets.get(i).isDestroyed()){
-				player1Bullets.remove(i);
+		for (int i = 0; i < getPlayer1Bullets().size(); i++){
+			if (getPlayer1Bullets().get(i).isDestroyed()){
+				getPlayer1Bullets().remove(i);
 			}
 		}		
 		for (int i = 0; i < player2Bullets.size(); i++){
