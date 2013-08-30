@@ -7,6 +7,7 @@ import com.raffledoocious.battleblaster.R;
 import com.raffledoocious.blasterbattle.Bullet;
 import com.raffledoocious.blasterbattle.GameState;
 import com.raffledoocious.blasterbattle.Player;
+import com.raffledoocious.manager.BulletManager;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,7 +15,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
@@ -26,6 +26,8 @@ public class GameBoard extends View {
 	private Bitmap player1BulletMap;
 	private Bitmap player2BulletMap;
 	private Rect bulletBounds;
+	
+	BulletManager bulletManager;
 	
 	private Paint p;
 	private Paint textPaint;
@@ -56,7 +58,7 @@ public class GameBoard extends View {
 		player1BulletMap = BitmapFactory.decodeResource(getResources(), R.drawable.player1bullet);
 		player2BulletMap = BitmapFactory.decodeResource(getResources(), R.drawable.player2bullet);
 		bulletBounds = new Rect(0,0, player1BulletMap.getWidth(), player1BulletMap.getHeight());
-
+		bulletManager = new BulletManager(getResources());
 		gameState = GameState.Waiting;
 	}
 	
@@ -84,8 +86,8 @@ public class GameBoard extends View {
 
 	private void checkForScoringBullets() {
 		//mark bullets which moved scored as destroyed
-		for (int i = 0; i < player1Bullets.size(); i++){
-			Bullet bullet = player1Bullets.get(i);
+		for (int i = 0; i < getPlayer1Bullets().size(); i++){
+			Bullet bullet = getPlayer1Bullets().get(i);
 			if (bullet.y <= 0 && !bullet.isDestroyed()){
 				bullet.markBulletDestroyed();
 				player1Score++;
@@ -104,7 +106,7 @@ public class GameBoard extends View {
 	//accessors for the main drawing method
 	synchronized public void addBullet(Bullet bullet){
 		if (bullet.getPlayer() == Player.One){
-			player1Bullets.add(bullet);
+			bulletManager.getPlayerBullets(Player.One).add(bullet);
 		}
 		else {
 			player2Bullets.add(bullet);
@@ -112,7 +114,7 @@ public class GameBoard extends View {
 	}
 	
 	synchronized public List<Bullet> getPlayer1Bullets(){
-		return player1Bullets;
+		return bulletManager.getPlayerBullets(Player.One);
 	}
 	
 	synchronized public List<Bullet> getPlayer2Bullets(){
@@ -253,8 +255,8 @@ public class GameBoard extends View {
 		}
 		
 		//draw player 1 bullets
-		for (int i = 0; i < player1Bullets.size(); i++) {
-			Bullet bullet = player1Bullets.get(i);
+		for (int i = 0; i < getPlayer1Bullets().size(); i++) {
+			Bullet bullet = getPlayer1Bullets().get(i);
 			canvas.drawBitmap(player1BulletMap, bullet.x, bullet.y, p);
 		}
 		
