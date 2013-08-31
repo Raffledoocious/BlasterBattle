@@ -21,11 +21,6 @@ import android.util.AttributeSet;
 import android.view.View;
 
 public class GameBoard extends View {
-
-	private Bitmap player1BulletMap;
-	private Bitmap player2BulletMap;
-	private Rect bulletBounds;
-	
 	BulletManager bulletManager;
 	
 	private Paint p;
@@ -39,6 +34,7 @@ public class GameBoard extends View {
 	
 	private long startTime;
 	private Paint countdownPaint;
+	private Paint scorePaint;
 	
 	private GameState gameState;
 	
@@ -49,59 +45,24 @@ public class GameBoard extends View {
 		textPaint = new Paint();
 		textPaint.setColor(Color.WHITE);
 		textPaint.setTextSize(25);
+		
 		countdownPaint = new Paint();
 		countdownPaint.setColor(Color.WHITE);
 		countdownPaint.setTextSize(200);
 		countdownPaint.setTextAlign(Align.CENTER);
-		player1BulletMap = BitmapFactory.decodeResource(getResources(), R.drawable.player1bullet);
-		player2BulletMap = BitmapFactory.decodeResource(getResources(), R.drawable.player2bullet);
-		bulletBounds = new Rect(0,0, player1BulletMap.getWidth(), player1BulletMap.getHeight());
+		
+		scorePaint = new Paint();
+		scorePaint.setColor(Color.WHITE);
+		scorePaint.setTextSize(100);
+		scorePaint.setTextAlign(Align.CENTER);
+		
 		bulletManager = new BulletManager(getResources());
 		gameState = GameState.Waiting;
-	}
+	}	
 	
-	private boolean detectCollisions()
-	{
-		boolean collisions = false;
-		for (int i = 0; i < getPlayer1Bullets().size(); i++){
-			for (int j = 0; j < getPlayer2Bullets().size(); j++){
-				Bullet p1Bullet = getPlayer1Bullets().get(i);
-				Bullet p2Bullet = getPlayer2Bullets().get(j);
-				Rect p1BulletBounds = new Rect(p1Bullet.x, p1Bullet.y, p1Bullet.x + player1BulletMap.getWidth(), p1Bullet.y + player1BulletMap.getHeight());
-				Rect p2BulletBounds = new Rect(p2Bullet.x, p2Bullet.y, p2Bullet.x + player2BulletMap.getWidth(), p2Bullet.y + player2BulletMap.getHeight());
-				
-				if (p1BulletBounds.intersect(p2BulletBounds)){
-					p1Bullet.markBulletDestroyed();
-					p2Bullet.markBulletDestroyed();
-					collisions = true;
-				}
-			}
-		}
-		
-		return collisions;
-	}
-	
-
-	private void checkForScoringBullets() {
-		//mark bullets which moved scored as destroyed
-		for (int i = 0; i < getPlayer1Bullets().size(); i++){
-			Bullet bullet = getPlayer1Bullets().get(i);
-			if (bullet.y <= 0 && !bullet.isDestroyed()){
-				bullet.markBulletDestroyed();
-				player1Score++;
-			}
-		}
-		
-		for (int i = 0; i < getPlayer2Bullets().size(); i++){
-			Bullet bullet = getPlayer2Bullets().get(i);
-			if (bullet.y >= getHeight() && !bullet.isDestroyed()){
-				bullet.markBulletDestroyed();
-				player2Score++;
-			}
-		}		
-	}
-	
-	//accessors for the main drawing method
+	/*
+	 * Accessors for various drawing elements
+	 */
 	synchronized public void addBullet(Bullet bullet){
 		if (bullet.getPlayer() == Player.One){
 			bulletManager.getPlayerBullets(Player.One).add(bullet);
@@ -120,11 +81,11 @@ public class GameBoard extends View {
 	}
 	
 	synchronized public int getBulletWidth(){
-		return bulletBounds.width();
+		return bulletManager.getBulletBounds().width();
 	}
 	
 	synchronized public int getBulletHeight(){
-		return bulletBounds.height();
+		return bulletManager.getBulletBounds().height();
 	}
 	
 	synchronized public int getTopBarrierY(){
@@ -191,7 +152,7 @@ public class GameBoard extends View {
 	}
 
 	private void drawScores(Canvas canvas) {
-		canvas.drawText(String.valueOf(player1Score) + "-" + String.valueOf(player2Score), getWidth() / 2, getHeight() / 2, countdownPaint);
+		canvas.drawText(String.valueOf(player1Score) + "-" + String.valueOf(player2Score), getWidth() / 2, getHeight() / 2, scorePaint);
 		if (player1Score > player2Score){
 			canvas.drawText("You lose!", 5, getHeight() - 5, textPaint);
 			RotateCanvas(canvas);
@@ -240,29 +201,8 @@ public class GameBoard extends View {
 			canvas.drawText(String.valueOf(displayTime), getWidth() / 2, getHeight() / 2, countdownPaint);
 		}
 		
-		//remove destroyed bullets
-		for (int i = 0; i < getPlayer1Bullets().size(); i++){
-			if (getPlayer1Bullets().get(i).isDestroyed()){
-				getPlayer1Bullets().remove(i);
-			}
-		}		
-		for (int i = 0; i < getPlayer2Bullets().size(); i++){
-			if (getPlayer2Bullets().get(i).isDestroyed()){
-				getPlayer2Bullets().remove(i);
-			}
-		}
-		
-		//draw player 1 bullets
-		for (int i = 0; i < getPlayer1Bullets().size(); i++) {
-			Bullet bullet = getPlayer1Bullets().get(i);
-			canvas.drawBitmap(player1BulletMap, bullet.x, bullet.y, p);
-		}
-		
-		//draw player 2 bullets
-		for (int i = 0; i < getPlayer2Bullets().size(); i++) {
-			Bullet bullet = getPlayer2Bullets().get(i);
-			canvas.drawBitmap(player2BulletMap, bullet.x, bullet.y, p);
-		}
+		bulletManager.removeDestroyedBullets();		
+		bulletManager.drawBullets(canvas);
 		
 		//draw player 2 score upside down
 		RotateCanvas(canvas);
@@ -273,8 +213,9 @@ public class GameBoard extends View {
 		canvas.drawText(String.valueOf(player1Score), 5, getHeight() - 5, textPaint);
 		
 		//update collisions to remove bullets in next frame
-		detectCollisions();
-		checkForScoringBullets();
+		bulletManager.detectCollisions();
+		player1Score += bulletManager.checkForScoringBullets(Player.One, getHeight());
+		player2Score += bulletManager.checkForScoringBullets(Player.Two, getHeight());
 	}
 	
 	private void RotateCanvas(Canvas canvas){
