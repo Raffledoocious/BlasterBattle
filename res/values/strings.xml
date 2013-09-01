@@ -8,5 +8,6 @@
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="game_activity">GameActivity</string>
+    <string name="about_text">"Blaster Battle\n by Jared Lutteke\n raffledoocious.net"</string>
 
 </resources>
