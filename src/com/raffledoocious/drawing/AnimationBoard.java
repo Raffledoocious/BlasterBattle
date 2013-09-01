@@ -42,8 +42,7 @@ public class AnimationBoard extends View {
 		}
 		else {
 			bulletManager.getPlayerBullets(Player.Two).add(new Bullet(x, bulletBounds.width(), Player.Two));
-		}
-			
+		}			
 	}
 	
 	@Override

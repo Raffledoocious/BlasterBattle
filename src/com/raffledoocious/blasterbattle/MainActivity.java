@@ -23,10 +23,6 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-		                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		
 		setContentView(R.layout.main_layout);
 		
 		startTime = System.currentTimeMillis();
@@ -89,10 +85,12 @@ public class MainActivity extends Activity {
 	}
 	
 	public void displaySettings(View view){
-		
+		Intent intent = new Intent(this, SettingsActivity.class);
+		startActivity(intent);
 	}
 	
 	public void displayAbout(View view){
-		
+		Intent intent = new Intent(this, AboutActivity.class);
+		startActivity(intent);
 	}
 }
