@@ -33,15 +33,6 @@ public class BulletManager {
 		bulletBounds = new Rect(0,0, player1BulletMap.getWidth(), player1BulletMap.getHeight());
 	}
 	
-	public void addBullet(Bullet bullet){
-		switch (bullet.getPlayer()){
-			case One:
-				player1Bullets.add(bullet);
-			case Two:
-				player2Bullets.add(bullet);
-		}
-	}
-	
 	public List<Bullet> getPlayerBullets(Player player){
 		switch(player){
 		case One:
