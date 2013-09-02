@@ -25,34 +25,34 @@
 	        android:text="@string/start"
 	        android:textSize="32sp"
 	        android:textColor="@color/white"
+	        android:background="@android:color/transparent"
 	        android:layout_width="fill_parent"
 	        android:layout_height="0dp"
 	        android:layout_weight="1"
 	        android:gravity="center"
 	        android:onClick="startGame"
-	        style="?android:attr/borderlessButtonStyle" 
 	        />
 	    <Button
 	        android:text="@string/settings"
 	        android:textSize="32sp"
 	        android:textColor="@color/white"
+	       	android:background="@android:color/transparent"
 	        android:layout_width="fill_parent"
 	        android:layout_height="0dp"
 	        android:layout_weight="1"
 	        android:gravity="center"
 	        android:onClick="displaySettings"
-	        style="?android:attr/borderlessButtonStyle" 
 	        />
 	    <Button
 	        android:text="@string/about"
 	        android:textSize="32sp"
 	        android:textColor="@color/white"
+	        android:background="@android:color/transparent"
 	        android:layout_width="fill_parent"
 	        android:layout_height="0dp"
 	        android:layout_weight="1"
 	        android:gravity="center"
 	        android:onClick="displayAbout"
-	        style="?android:attr/borderlessButtonStyle" 
 	        />
 	</LinearLayout>
 

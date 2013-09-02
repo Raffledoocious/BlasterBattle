@@ -7,24 +7,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.raffledoocious.battleblaster.R;
 import com.raffledoocious.drawing.AnimationBoard;
 
 
 public class MainActivity extends Activity {
-	private static final int FRAME_RATE = 20;	
+	private static final int FRAME_RATE = 20;
 	private Handler frame = new Handler();
-	private long startTime;
+	private long startTime;	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.main_layout);
-		
 		startTime = System.currentTimeMillis();
 		
 		Handler h = new Handler();
