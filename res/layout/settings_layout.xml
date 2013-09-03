@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/black" >
+    
+	<LinearLayout
+	    android:id="@+id/menu"
+        android:layout_width="match_parent"
+	    android:layout_height="0dip" 
+	    android:layout_weight="1"
+	    android:orientation="vertical"
+	     >
+	     <TextView         
+		    android:id="@+id/bullet_speed"
+		    android:text="@string/bullet_speed"
+	        android:textSize="20sp"
+	        android:textColor="@color/white"
+	        android:layout_height="0dip"
+	        android:layout_width="fill_parent"
+			android:layout_weight="1" />
+	    <SeekBar 
+	        android:id="@+id/bullet_speed_bar"
+	       	android:layout_height="0dip"
+	        android:layout_width="fill_parent" 
+	        android:layout_weight="1" 
+	        android:padding="10dp"
+	        android:max="5"/>
+	    <TextView 
+	        android:id="@+id/bullet_speed_value"
+	        android:textSize="20sp"
+	        android:textColor="@color/white"
+	        android:layout_height="0dip"
+	        android:layout_width="fill_parent" 
+	        android:layout_weight="1"/>
+	</LinearLayout>
+	<LinearLayout 
+        android:layout_width="match_parent"
+	    android:layout_height="0dip" 
+	    android:orientation="vertical" 
+	    android:layout_weight="1">
+	
+		<TextView 
+			android:text="@string/bullet_size"
+	        android:textSize="20sp"
+	        android:textColor="@color/white"
+	        android:layout_height="0dip"
+	        android:layout_width="fill_parent" 
+	        android:layout_weight="1" />
+		<SeekBar 
+		    android:id="@+id/bullet_size_bar"
+		    android:layout_height="0dip"
+	        android:layout_width="fill_parent"
+	        android:layout_weight="1" 
+	        android:padding="10dp"
+	        android:max="5"/>
+		<TextView 
+			android:id="@+id/bullet_size_value"
+	        android:textSize="20sp"
+	        android:textColor="@color/white"
+	        android:layout_height="0dip"
+	        android:layout_width="fill_parent" 
+	        android:layout_weight="1" />
+	</LinearLayout>
+</LinearLayout>
