@@ -7,16 +7,20 @@ import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.raffledoocious.battleblaster.R;
+import com.raffledoocious.manager.SettingsManager;
 
 public class SettingsActivity extends Activity {
 	private SeekBar bulletSpeedBar;
 	private SeekBar bulletSizeBar;
 	private TextView bulletSizeValue;
 	private TextView bulletSpeedValue;
+	private SettingsManager settingsManager;
 	
 	@Override 
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		
+		settingsManager = new SettingsManager(getApplicationContext());
 		
 		setContentView(R.layout.settings_layout);
 		bulletSpeedBar = (SeekBar) findViewById(R.id.bullet_speed_bar);
@@ -34,10 +38,12 @@ public class SettingsActivity extends Activity {
 			int current = progress;
 			if (seekBar.getId() == bulletSpeedBar.getId()){
 				bulletSpeedValue.setText(String.valueOf(current));
+				settingsManager.saveBulletSpeed(current);
 			}
 			else if (seekBar.getId() == bulletSizeBar.getId()){
 				bulletSizeValue.setText(String.valueOf(current));
-			}			
+				settingsManager.saveBulletSize(current);
+			}	
 		}
 
 		@Override

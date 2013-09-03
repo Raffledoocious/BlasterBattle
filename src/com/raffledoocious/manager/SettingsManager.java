@@ -27,9 +27,12 @@ public class SettingsManager {
 		return _sharedPrefs.getInt(BULLET_SPEED, 1);	
 	}
 	
-	public void saveSettings(int bulletSpeed, int bulletSize){
-		_prefsEditor.putInt(BULLET_SPEED, bulletSpeed);
+	public void saveBulletSize(int bulletSize){
 		_prefsEditor.putInt(BULLET_SIZE, bulletSize);
+	}
+	
+	public void saveBulletSpeed(int bulletSpeed){
+		_prefsEditor.putInt(BULLET_SPEED, bulletSpeed);
 	}
 
 }
