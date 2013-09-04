@@ -73,10 +73,10 @@ public class GameActivity extends Activity {
 					
 					//draw bullet for correct player depending on where touch was
 					if (y >= board.getBottomBarrierY()){
-						board.addBullet(new Bullet(x, y, Player.One));
+						board.addBullet(x, y, Player.One);
 					}
 					else if (y <= board.getTopBarrierY()){
-						board.addBullet(new Bullet(x, y, Player.Two));
+						board.addBullet(x, y, Player.Two);
 					}
 				}
 			}

@@ -24,7 +24,7 @@ public class BulletManager {
 	
 	private Rect bulletBounds;
 	
-	public BulletManager(Resources resources){
+	public BulletManager(Resources resources, int bulletSize, int bulletSpeed){
 		p = new Paint();
 		player1Bullets = new ArrayList<Bullet>();
 		player2Bullets = new ArrayList<Bullet>();

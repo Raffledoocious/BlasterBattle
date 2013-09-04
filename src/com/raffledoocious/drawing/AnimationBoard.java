@@ -21,7 +21,7 @@ public class AnimationBoard extends View {
 	public AnimationBoard(Context context, AttributeSet attrSet) {
 		super(context, attrSet); 
 		
-		bulletManager = new BulletManager(getResources());
+		bulletManager = new BulletManager(getResources(), 1, 1);
 		rand = new Random();
 	}
 	
@@ -38,10 +38,10 @@ public class AnimationBoard extends View {
 		Rect bulletBounds = bulletManager.getBulletBounds();
 		int x = rand.nextInt(bulletBounds.width() + (int)(Math.random() * ((getWidth() - bulletBounds.width()) - bulletBounds.width()) + 1));
 		if (playerToAdd == 0){	
-			bulletManager.getPlayerBullets(Player.One).add(new Bullet(x, getHeight() - bulletBounds.width(), Player.One));	
+			bulletManager.getPlayerBullets(Player.One).add(new Bullet(x, getHeight() - bulletBounds.width(), Player.One, 3));	
 		}
 		else {
-			bulletManager.getPlayerBullets(Player.Two).add(new Bullet(x, bulletBounds.width(), Player.Two));
+			bulletManager.getPlayerBullets(Player.Two).add(new Bullet(x, bulletBounds.width(), Player.Two, 3));
 		}			
 	}
 	

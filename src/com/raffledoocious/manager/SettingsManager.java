@@ -6,8 +6,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 public class SettingsManager {
-	public int bulletSpeed;
-	public int bulletSize;
+
 	public static final String PREFS_NAME="GameSettings";
 	private static final String BULLET_SPEED="bullet_speed";
 	private static final String BULLET_SIZE="bullet_size";

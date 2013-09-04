@@ -26,7 +26,7 @@
 	        android:layout_width="fill_parent" 
 	        android:layout_weight="1" 
 	        android:padding="10dp"
-	        android:max="5"/>
+	        android:max="2"/>
 	    <TextView 
 	        android:id="@+id/bullet_speed_value"
 	        android:textSize="20sp"
@@ -54,7 +54,7 @@
 	        android:layout_width="fill_parent"
 	        android:layout_weight="1" 
 	        android:padding="10dp"
-	        android:max="5"/>
+	        android:max="2"/>
 		<TextView 
 			android:id="@+id/bullet_size_value"
 	        android:textSize="20sp"

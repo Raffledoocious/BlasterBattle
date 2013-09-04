@@ -7,19 +7,19 @@ public class Bullet {
 	private int velocity;
 	private boolean destroyed;
 	
-	private static final int player1Velocity = -16;
+	private static final int player1Velocity = -8;
 	private static final int player2Velocity = Math.abs(player1Velocity);
 	
-	public Bullet(int x, int y, Player player){
+	public Bullet(int x, int y, Player player, int speedScale){
 		this.x = x;
 		this.y = y;
 		this.player = player;
 		this.destroyed = false;
 		if (player == Player.One){
-			this.velocity = player1Velocity;
+			this.velocity = player1Velocity * speedScale;
 		}
 		else {
-			this.velocity = player2Velocity;
+			this.velocity = player2Velocity * speedScale;
 		}
 	}
 	

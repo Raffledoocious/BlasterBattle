@@ -8,6 +8,7 @@ import com.raffledoocious.blasterbattle.Bullet;
 import com.raffledoocious.blasterbattle.GameState;
 import com.raffledoocious.blasterbattle.Player;
 import com.raffledoocious.manager.BulletManager;
+import com.raffledoocious.manager.SettingsManager;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -36,6 +37,8 @@ public class GameBoard extends View {
 	private Paint countdownPaint;
 	private Paint scorePaint;
 	
+	private SettingsManager settingsManager;
+	
 	private GameState gameState;
 	
 	public GameBoard(Context context, AttributeSet attrSet) {
@@ -55,20 +58,20 @@ public class GameBoard extends View {
 		scorePaint.setColor(Color.WHITE);
 		scorePaint.setTextSize(100);
 		scorePaint.setTextAlign(Align.CENTER);
-		
-		bulletManager = new BulletManager(getResources());
+		settingsManager = new SettingsManager(context);
+		bulletManager = new BulletManager(getResources(), settingsManager.getBulletSize(), settingsManager.getBulletSpeed());
 		gameState = GameState.Waiting;
 	}	
 	
 	/*
 	 * Accessors for various drawing elements
 	 */
-	synchronized public void addBullet(Bullet bullet){
-		if (bullet.getPlayer() == Player.One){
-			bulletManager.getPlayerBullets(Player.One).add(bullet);
+	synchronized public void addBullet(int x, int y, Player player){
+		if (player == Player.One){
+			bulletManager.getPlayerBullets(Player.One).add(new Bullet(x, y, player, settingsManager.getBulletSpeed()));
 		}
 		else {
-			bulletManager.getPlayerBullets(Player.Two).add(bullet);
+			bulletManager.getPlayerBullets(Player.Two).add(new Bullet(x, y, player, settingsManager.getBulletSpeed()));
 		}
 	}
 	

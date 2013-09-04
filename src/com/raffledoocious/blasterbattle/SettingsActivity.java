@@ -15,6 +15,7 @@ public class SettingsActivity extends Activity {
 	private TextView bulletSizeValue;
 	private TextView bulletSpeedValue;
 	private SettingsManager settingsManager;
+	private final int INITIAL_VALUES = 1;
 	
 	@Override 
 	protected void onCreate(Bundle savedInstanceState){
@@ -35,14 +36,14 @@ public class SettingsActivity extends Activity {
 
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-			int current = progress;
+
 			if (seekBar.getId() == bulletSpeedBar.getId()){
-				bulletSpeedValue.setText(String.valueOf(current));
-				settingsManager.saveBulletSpeed(current);
+				bulletSpeedValue.setText(String.valueOf(progress + 1));
+				settingsManager.saveBulletSpeed(progress + 1);
 			}
 			else if (seekBar.getId() == bulletSizeBar.getId()){
-				bulletSizeValue.setText(String.valueOf(current));
-				settingsManager.saveBulletSize(current);
+				bulletSizeValue.setText(String.valueOf(progress + 1));
+				settingsManager.saveBulletSize(progress + 1);
 			}	
 		}
 
