@@ -23,15 +23,17 @@ public class SettingsManager {
 	}
 	
 	public int getBulletSpeed(){
-		return _sharedPrefs.getInt(BULLET_SPEED, 1);	
+		return _sharedPrefs.getInt(BULLET_SPEED, 1);
 	}
 	
 	public void saveBulletSize(int bulletSize){
 		_prefsEditor.putInt(BULLET_SIZE, bulletSize);
+		_prefsEditor.commit();
 	}
 	
 	public void saveBulletSpeed(int bulletSpeed){
 		_prefsEditor.putInt(BULLET_SPEED, bulletSpeed);
+		_prefsEditor.commit();
 	}
 
 }

@@ -15,7 +15,7 @@ public class SettingsActivity extends Activity {
 	private TextView bulletSizeValue;
 	private TextView bulletSpeedValue;
 	private SettingsManager settingsManager;
-	private final int INITIAL_VALUES = 1;
+	private final int INITIAL_VALUE = 1;
 	
 	@Override 
 	protected void onCreate(Bundle savedInstanceState){
@@ -24,12 +24,18 @@ public class SettingsActivity extends Activity {
 		settingsManager = new SettingsManager(getApplicationContext());
 		
 		setContentView(R.layout.settings_layout);
-		bulletSpeedBar = (SeekBar) findViewById(R.id.bullet_speed_bar);
-		bulletSpeedBar.setOnSeekBarChangeListener(BulletValueChanged);
-		bulletSizeBar = (SeekBar) findViewById(R.id.bullet_size_bar);
-		bulletSizeBar.setOnSeekBarChangeListener(BulletValueChanged);
 		bulletSizeValue = (TextView) findViewById(R.id.bullet_size_value);
 		bulletSpeedValue = (TextView) findViewById(R.id.bullet_speed_value);
+		bulletSpeedBar = (SeekBar) findViewById(R.id.bullet_speed_bar);
+		bulletSpeedBar.setOnSeekBarChangeListener(BulletValueChanged);
+		bulletSpeedBar.setProgress(settingsManager.getBulletSpeed() - 1);
+		bulletSizeBar = (SeekBar) findViewById(R.id.bullet_size_bar);
+		bulletSizeBar.setOnSeekBarChangeListener(BulletValueChanged);
+		bulletSizeBar.setProgress(settingsManager.getBulletSize() - 1);
+		
+		//set the text values in the case where the progress changed is not triggered
+		bulletSizeValue.setText(String.valueOf(settingsManager.getBulletSize()));
+		bulletSpeedValue.setText(String.valueOf(settingsManager.getBulletSpeed()));
 	}
 	
 	OnSeekBarChangeListener BulletValueChanged = new OnSeekBarChangeListener(){
@@ -44,7 +50,8 @@ public class SettingsActivity extends Activity {
 			else if (seekBar.getId() == bulletSizeBar.getId()){
 				bulletSizeValue.setText(String.valueOf(progress + 1));
 				settingsManager.saveBulletSize(progress + 1);
-			}	
+			}
+			
 		}
 
 		@Override
