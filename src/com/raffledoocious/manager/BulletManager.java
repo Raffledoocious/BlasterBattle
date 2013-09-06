@@ -28,11 +28,16 @@ public class BulletManager {
 		p = new Paint();
 		player1Bullets = new ArrayList<Bullet>();
 		player2Bullets = new ArrayList<Bullet>();
-		player1BulletMap = BitmapFactory.decodeResource(resources, R.drawable.player1bullet);
-		player2BulletMap = BitmapFactory.decodeResource(resources, R.drawable.player2bullet);
+		player1BulletMap = getScaledBulletBitmap(resources, bulletSize, R.drawable.player1bullet);
+		player2BulletMap = getScaledBulletBitmap(resources, bulletSize, R.drawable.player2bullet);
 		bulletBounds = new Rect(0,0, player1BulletMap.getWidth(), player1BulletMap.getHeight());
 	}
 	
+	private Bitmap getScaledBulletBitmap(Resources resources, int bulletSize, int resourceId) {
+		Bitmap temporaryBitmap = BitmapFactory.decodeResource(resources, resourceId);
+		return Bitmap.createScaledBitmap(temporaryBitmap, temporaryBitmap.getWidth() * bulletSize, temporaryBitmap.getHeight() * bulletSize, false);
+	}
+
 	public List<Bullet> getPlayerBullets(Player player){
 		switch(player){
 		case One:
